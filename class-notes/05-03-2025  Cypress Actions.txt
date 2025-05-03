@@ -1,0 +1,79 @@
+RECAP: 
+
+<button id="login-btn" class="btn primary-btn">Login</button> 
+
+cy.contains('LOGIN');  --> Not the best way because it's not dynamic with changes 
+cy.get('#login-btn');
+cy.get('.btn');
+cy.get('.primary-btn'); 
+
+It all depends on your metadata ACCESS POINT ==> id, class
+But you also have to think about the DOM tree structure 
+    - parent/siblings/children 
+
+
+CSS SYNTAX:     
+
+tagName[attrName='value']
+[attrName='value']
+
+button[id="login-btn"]
+
+<a href="somelinks" class="about_us_link">About Us</a> 
+<a href="somelinks" class="contact_us_link">Contact Us</a> 
+<a href="somelinks" class="link_home">Home</a> 
+<button class="register_btn">Register</button> 
+<button class="login_btn">Login</button> 
+
+cy.get('a'); // 3 link elements
+cy.get('button'); // 2 button elements 
+
+
+CSS startsWith, endsWith, and contains 
+a[class*="link:]  // * = contains --> 3 link elements
+a[class^="link:]  // ^ = startsWith --> Home link 
+a[class$="link:]  // $ = endsWith --> 2 link elements
+
+<div id="container"> 
+    <h2>Get Started</h2> 
+    <p>Welcome to Cypress World!</p> 
+</div> 
+
+<div id="main-content"> 
+    <h2>Start learning today!</h2> 
+    <p>Cypress makes automation easy!</p> 
+
+    <div>
+        <h2>Locators</h2> 
+        <p>Locators are used to identify web elements</p> 
+    </div> 
+</div> 
+
+#main-content>h2  // find me the element that has the id and then move on to the 1st child (immediate child)
+#main-content>p
+
+#main-content>div>h2
+
+
+cy.get('h2'); // don't rely too much with pesudo classes b/c it doesn't support dynamic changes 
+
+
+Locating Strategies: 
+    1. If there is an ID --> USE IT (don't look for anything else)
+    2. Try CSS Locators      [attr="value"]
+    3. cy.contains -->       [NOT recommened]  
+
+What attributes are the most reliable?
+    1. ID 
+    2. aria-label (usually this doesn't change + used for accessibility)
+    3. for (usually for labels)
+    4. class [sometimes though]
+    5. alt (for images)
+    6. name 
+    7. data-test-id /data-qa / data-cvtest  --> these are there for YOU (the tester, so yay)
+    8. title 
+
+
+<option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+
+Locator vs. Selector 

@@ -1,0 +1,351 @@
+What is NodeJS ?
+
+	NodeJS is a runtime environment that allows us to run the JS code outside of the browsers.
+
+	- To use libraries and modules npmjs
+	- It allows us to run any javascript code locally
+
+
+	- npm (node package manager)
+
+		* CLI commands
+		* Online Registery
+
+
+		CLI:
+
+			npm install typescript-compiler
+			npm i typescript-compiler
+
+			npm install typescript-compiler --save-dev
+			npm i typescript-compiler -D
+
+
+		New Hire Onboarding Process
+
+			- install git
+			- install nodejs
+			- clone the project
+
+
+			1. package.json
+				- dependencies
+				- npm scripts
+
+			2. readme.md
+
+			3. npm install
+
+
+		COMMANDS:
+			npm install 
+			npm init		=> initializes the package.json
+
+			npm run 		=> it runs the scripts inside your package.json
+
+
+		get specific version: npm install packageName@11.2.3
+
+
+	CYPRESS:
+
+		It is end-to-end automation tool that is helping us to automate all the layers of an application.
+
+		ADVANTAGES:
+
+			- Runs inside the browser makes it run faster and real time interaction with the web elements.
+
+			- Auto Waiting - It solves the scynhronozation problem with the code and the browser, which makes the tests faster, and reliable
+
+			- Great Documentation
+
+			- Comes with built-in screenshot and video
+
+			- Open Source
+
+			- Community Support
+
+			- Great Debuggibility - Because of Cypress Test Runner, time-travel feature.
+
+
+
+
+Cypress Basic Commands: 
+
+	How many types of folders that Cypress comes with ?
+
+	- fixtures 	=> Its a directory where we hold our external test data.
+
+	- support 	=> In this folder, we will find 2 files
+						- commands.js => Its place where we can create global functions.
+						- e2e.js	  => This file, always runs ONCE before each tests in the e2e folder.
+	- e2e		=> This is folder where we store all our test files.
+
+	- Assets folder => There is no folder called 'Assets' in Cypress. This is group of folders, that is being created once we need them.
+
+
+	- describe() 	-> Is a method that holds group of tests in a single file.
+
+	- it()			-> Used to define individual test cases.
+
+
+
+	cypress.config.js 	=> Thats a configuration where you can change, and overwrite some settings about your tests, and the runner.
+
+	When you install, this file comes empty, but it doesn't means it is empty. Because there are pre-defined DEFAULT options. 
+    So, if you want to see this default options, you will find them in the settings of the Cypress Test Runner.
+
+	We dont use XPath with Cypress, because Cypress locator API's DO NOT support XPATH
+
+	1. tagName 			=> <input>, <a>, <h1>
+
+		cy.get('input')
+
+	2. class or id		=> <input type="checkbox" id="check" class="ccbox">
+
+		cy.get('#check')
+		cy.get('.ccbox')
+
+	3. combining the properties	=> <input type="checkbox" id="check" 															class="ccbox tech">
+
+		cy.get('input#check.ccbox.tech')
+
+	4. child selector ( > )		=> 
+
+
+		cy.get('div > button > svg')
+
+
+
+Cypress Selectors and Action Commands: 
+
+		- XPath
+		- CSS
+
+			1. tagName <tagName>
+			2. class or id
+			3. > Symbol goes from parent to child
+			4. (space) we can directly go from very root to child
+			5. + > Helps you target elements that are immediate siblings
+			6. ~ > Helps you target all the next siblings of a web element
+			7. , > You can access multiple elemenets at a time.
+			8. [type="checkbox"] attribute selectors, helps you get any web element with any type of attribute
+				* Contains [class*='box']
+				* Starts-with [class^='box']
+				* Ends-with [class$='box']
+
+			9. Combining the attributes by writing them without using space using properties of single web element
+			10. Pseudo classes > It helps you target web elements depending on their states. Mostly defined after the (:)
+
+				Ex: input:checked
+
+
+Cypress Selector APIs: 
+
+		- cy.get()
+		- cy.contains()  => Finds the element by visible text
+
+				@example
+					cy.contains('HTML Elements')
+					cy.contains(locator, 'visibleText')
+					cy.get('div').contains('visibleText')
+
+		- cy.find()		=> It targets the descendant element of its subject.
+
+				@example
+					cy.get('div').find('.className')
+
+		- next(), prev(), nextAll(), prevAll()
+
+				These selectors helps you traverse between the web elements by their siblings.
+
+		- parent(), parentAll(), children()
+
+				Helps you target the parent or child of a web element.
+
+
+		How to target if your locator returns multiple elements ?
+
+				.eq()
+				.first()
+				.last()
+
+
+		ACTION COMMANDS
+
+			- click()
+			- check(), uncheck()	=> It can be used only web elements that are <		input> and their types are either "checkbox", or "radio"
+
+				@example
+
+					true	-> <input type="checkbox">
+					true	-> <input type="radio">
+					false	-> <input type="email">
+					false	-> <label for="radio"></label>
+
+			- select()		=> It used to select values from the dropdown IF 			dropdown created using <select> html web element.
+
+			- type()		=> Sends text inside the input bar
+			- clear()		=> Clears the value in the input var
+
+
+ALERTS AND DIALOGS: 
+
+			- Warning		=> It's a dialogue with OK button
+			- Confirmation	=> Its with 2 options, okay and cancel
+			- Prompt		=> It requires input from the user
+
+
+
+		Cypress by default handles Warning and Confirmation alerts by clicking the OK.
+
+		What about the Prompt ?
+
+		Cypress doesn't handle the prompt alert, because it requires input from the user, and since Cypress doesn't know what is this input, they rather not to handle it.
+
+		How to get the text, and handle the options of an error in Cypress ?
+
+			Using event listeners:
+
+			cy.on()		=> Event listener in Cypress.
+
+			Syntax to handle confirmation alert and click on the cancel button
+
+				cy.on('window:confirm', (str) => {
+					expect(str).to.equal('expected error')
+					return false
+				})
+
+
+		IFRAMES
+
+			How to target element in an iFrame
+
+			1. Target the iFrame ITSELF
+			2. Access the property of web element you target using its()
+			3. Now you are inside the iframe, you can target the web element any child selector API.
+
+				@example
+
+				cy.get('iframe')
+				.its('0.contentDocument.body')
+				.find(webElement)
+
+
+		MULTIPLE TABS
+
+			Since Cypress architecture is built on run directly in the browser, it has same limitations that regular user have. This architecture makes Cypress use the browser as runner, and it limits its context.
+
+			First of all, Cypress DOES NOT handle multiple tabs, instead they workaround by manipulating the web element by using JQuery.
+
+			Cypress get advantage from this, and allows user to remove the attribute that triggers the link on the new tab ( which is target="_blank").
+
+				@example
+
+				cy.get(webElement).invoke('removeAttr', 'target').click()
+
+
+		1. Parent
+
+			The commands we call using the cy object are the parent commands
+
+				- visit
+				- get
+				- url
+				- title
+				- wrap()
+
+				@example
+
+			Cypress.command.add('methodName', (callBack) => {
+
+			})
+
+		2. Child
+
+			Child commands are the commands that we can chain any CYp[ress command
+
+				- should
+				- type, click ( all the action commands )
+				- next
+				- find
+				- then
+
+			Cypress.command.add('methodName', { prevSubject: true } ,(subject) => {
+
+			})
+
+		3. Dual
+
+			The commands that are parent and child at the same time.
+
+				- contains()
+				- screenshot()
+				- scrollTo()
+				- wait()
+
+
+			Cypress.command.add('methodName', { prevSubject: 'optional' } ,(subject) => {
+
+			})
+
+
+		4. Overwriting
+
+			This helps programmer to overwrite the functionality of any Cypress command we have.
+
+
+
+
+		CLI ( Command Line Interface )
+
+			Running tests using the CLI gives user flexibility to run tests in any configuration they want.
+
+			E.g.
+
+				- headless or headed
+				- browser type
+				- using any configuration
+				- running any specific test file
+
+
+
+			- npx cypress run
+
+				* Electron
+				* headless
+
+			FLAGS:
+
+			* --headed		=> Runs the tests in the browser mode
+			* --browser		=> Defines the browser you want to use (--browser chrome)
+			* --config 		=> You can change any option you want per run from the config file
+			* --spec 		=> Allows you to choose specific test you want to run
+			* --env 		=> It gives you option to overwrite the option you have in the env object
+
+
+			// Run the tests in chrome browser with headed mode using chromewebsecurity false and specfic test file
+
+
+			npx cypress run --browser chrome --headed --config chromeWebSecurity=false --spec "path/path/test.cy.js"
+
+			"scripts": {
+				"test": "npx cypress run",
+				"test:file": "node blabla.js"
+			}
+
+			How can i run the "test" script ?
+
+				npm t
+				npm test
+
+
+				npm run test:file
+
+
+				npm t --headed   	WRONG
+
+				npm t 			=> npm script
+				--headed		=> Cypress CLI
+
+				npm t -- --headed 	CORRECT
