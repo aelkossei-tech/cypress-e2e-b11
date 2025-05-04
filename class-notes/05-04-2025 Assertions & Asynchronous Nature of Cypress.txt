@@ -1,0 +1,12 @@
+** INTERVIEW QUESTION: Tell me about Cypress assertions. **
+    - Assertions ==> how Cypress checks that the app behaves as expected 
+    - Default, implicit, explicit assertions 
+        - Default ==> many Cypress commands have built-in checks 
+      - implicit vs. explicit  --> one has retries and the other DOESN'T (explicit - doesn't wait for 4 secs + .explicit())
+        - Implicit ==> these are built into Cypress commands w/ .should() and .and() [retries up tp 4 seconds]
+        - Explicit ==> you write these using JS assertion libraries [they DONT wait for anything]
+            - .expect()
+    - aynchornous Cypress 
+    - Give a couple of examples --> EX: .should()
+    - Return VS. Yield 
+        - cypress will never return any elements --> so that's the reason why you can't store in a vairable (like JS)
