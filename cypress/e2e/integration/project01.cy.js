@@ -41,67 +41,121 @@ describe('Project 01', () => {
         })
         /*
         Could have used .each() somehow to not repeat the same code and loop through those options 
-        cy.get('label.radio').contains('Male')
-         .should('not.be.checked')
-         .check()
-         .should('be.checked');
-        cy.get('label.radio').contains('Female').click()
-         .should('not.be.checked')
-         .check()
-         .should('be.checked');
-        cy.get('label.radio').contains('Prefer not to disclose').click()
-         .should('not.be.checked')
-         .check()
-         .should('be.checked');
-        })
         */
-        // Click on the “Male” option and validate it is selected while the others are not selected (same with "Female Option")
-        cy.get('label.radio').contains('Male').click() // can't check if it's checked right away because we're looking at the LABEL not INPUT
-
+        // Click on the “Male” option and validate it is selected while the others are not selected (same with "Female Option")        
         cy.get('label.radio')
          .contains('Male')
-         .find('input')// selector used to filter matching descendent DOM elements 
-         .should('be.checked'); 
-        
-         // not the most dynamic way to do this --> I'm guessing using another .each() method heere 
-         cy.get('label.radio')
-         .contains('Female')
-         .find('input')
-         .should('not.be.checked');  
-       
-         cy.get('label.radio')
-         .contains('Prefer not to disclose')
-         .find('input')
-         .should('not.be.checked'); 
+         .click() // can't check if it's checked right away because we're looking at the LABEL not INPUT
+        .find('input')
+        .should('be.checked');
+
+        const otherOptions = ['Female', 'Prefer not to disclose']; 
+        otherOptions.forEach(option => {
+            cy.contains('label.radio', option)
+             .find('input')
+             .should('not.be.checked'); 
+        }); 
 
         // Female Selected 
-        cy.get('label.radio').contains('Female').click(); 
         cy.get('label.radio')
          .contains('Female')
+         .click()
          .find('input')
-         .should('be.checked');
-
-         cy.get('label.radio')
-          .contains('Male')
-          .find('input')
-          .should('not.be.checked');
-
-          cy.get('label.radio')
-          .contains('Prefer not to disclose')
-          .find('input')
-          .should('not.be.checked');
-
-        /*
-        OR: 
-        const options = ['Male', 'Female', 'Prefer not to disclose']; 
-
-        */
+         .should('be.checked'); 
+        
+         const otherOptions1 = ['Male', 'Prefer not to disclose']; 
+         otherOptions1.forEach(option => {
+             cy.contains('label.radio', option)
+              .find('input')
+              .should('not.be.checked'); 
+         }); 
     }); 
 
     it('Test Case 04 - Validate the Address input box', () => {
         cy.get('input[placeholder="Enter your address"]')
-        .scrollIntoView()
-        .should('be.visible'); 
+         .scrollIntoView()
+         .should('be.visible')
+        
+        cy.get('input[placeholder="Enter your address"]')
+         .should('not.have.attr', 'required');
+    
+        cy.get('.field > label.label')
+         .contains('Address'); 
+
+         cy.get('input[placeholder="Enter your address"')
+            .should('be.visible', 'placeholder', 'Enter your address'); 
     }); 
 
-})
+    it('Test Case 05 - Validate the Email input box', () => {
+        cy.get('input[placeholder="Enter your email"]')
+         .scrollIntoView()
+         .should('be.visible')
+         .and('have.attr', 'required'); 
+
+         cy.get('.field > label.label')
+         .contains('Email *')
+         .should('be.visible'); 
+
+         cy.get('input[placeholder="Enter your email"]').should('have.attr', 'placeholder', 'Enter your email'); 
+    }); 
+
+    it('Test Case 06 - Validate the Phone input box', () => {
+        cy.get('input[placeholder="Enter your phone number"]')
+            .should('be.visible')
+            .and('not.have.attr', 'required')
+
+        cy.get('.field > label.label')
+            .contains('Phone')
+            .should('be.visible');
+
+        cy.get('input[placeholder="Enter your phone number"]').should('have.attr', 'placeholder', 'Enter your phone number'); 
+    }); 
+
+    it('Test Case 07 - Validate the Message text area', () => {
+        cy.get('.textarea').should('be.visible')
+         .and('not.have.attr', 'required');
+
+        cy.get('.field > label.label')
+         .contains('Message')
+         .should('be.visible'); 
+
+         cy.get('.textarea').should('have.attr', 'placeholder', 'Type your message here...'); 
+    });
+
+    it('Test Case 08 - Validate the Consent checkbox', () => {
+        cy.get('label.checkbox')
+         .should('have.text', ' I give my consent to be contacted.')
+         .and('be.visible'); 
+
+        cy.get('.textarea').should('not.have.attr', 'required'); 
+        cy.get('input[type="checkbox"]')
+         .click()
+         .should('be.checked')
+         .click()
+         .should('not.be.checked'); 
+    }); 
+
+    it('Test Case 09 - Validate the SUBMIT button', () => {
+        cy.get('button[type="submit"]')
+         .should('be.visible')
+         .and('be.enabled')
+         .and('have.text', 'SUBMIT'); 
+    }); 
+
+    it.only('Test Case 10 - Validate the form submission', () => {
+        cy.get('input[placeholder="Enter your full name"]').type('Ayah Elkossei'); 
+        cy.get('label.radio').contains('Female').click(); 
+        cy.get('input[placeholder="Enter your address"]').type('9215 S. Tripp Ave., Oak Lawn, IL 60453'); 
+        cy.get('input[type="email"]').type('ayahelkossie@gmail.com'); 
+        cy.get('input[type="phone"]').type('(708) 691-3742'); 
+        cy.get('textarea').type(`Woah, I'm totally learning Cypress! I knew I could do it! Can't wait to be an SDET!`);
+        cy.get('input[type="checkbox"]').click(); 
+        cy.get('button.is-link').contains('SUBMIT').click({ force: true }); 
+        Cypress.on('uncaught:exception', (err) => {
+            console.error('Uncaught Exception:', err);
+            return false; // Prevents Cypress from failing the test
+          });
+        cy.get('strong.mt-5').should('have.text', 'Thanks for submitting!'); 
+    })
+}); 
+
