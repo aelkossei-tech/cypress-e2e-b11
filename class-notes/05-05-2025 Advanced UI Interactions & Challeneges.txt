@@ -1,0 +1,68 @@
+What is iFrame? 
+    - iFrame (inline frame) ==> an HTML element used to embed ANOTHER HTML document within the current page 
+    - commonly used to embed specific contect --> external ads/videos/tags/other interactive elements into page 
+    - created by <iframe>
+    - really used to embed content + sandboxing [security practice in which you use an isolated environment or "sandbox" for testing]
+      + loading pages within pages 
+    - Cypress has some difficulties working w/ iFrames --> Cypress stops the operations when it meets an iframe or a frame as the flow is iFrame
+      interrupted by finding a doc it can't access wthin the code 
+        - SO to fix this --> you'd have to capture the iframe that you want to use [using CSS] + you can access the content of the body content 
+          by using ".its('0.contentDocument.body')" function ==> returns the body/document the iframe is holding 
+        - after that --> use the body and wrap it (.wrap()) inside of the cy selector
+    - contentDocument ==> a property of the HTML <iframe> element; provides a way to access this emebedded document object 
+        - once you have access to the contentDocument --> you can manipulate the content of the mebedded pages as you could with the main once
+        - 0.contentDocument.body
+            - 0 ==> refered the the first (and typically only) DOM element from the set of elements wrapped by Cypress 
+            - contentDocument ==> gets the Document object of the iframe's content 
+            - body ==> gets the body of that embedded doc (the main content area of the embedded page)
+        - .its() ==> used to access properties of the "current subject" (subject refers to the element/object currently being acted upon in the Cypress chain)
+            - similar to this() function when it comes to objects in JS 
+
+    - Cypress does not naturally support testing actions that lead to new browser tabs/windows --> was designed to operate within a SINGLE 
+       tab + assumes a single-window context with any of the commands we use 
+    - whenever you need to verify that a link open in a new browser [target="_blank"] within the <a> tag 
+    - SO --> in Cypress you can check this behavior by: 1. assessing the presence/value of the target attribute 
+        - EX: cy.get('a[href="/foo"]').should('have.attr', 'target', '_blank'); 
+    - NOW --> if you an application opens up a new tab upon another action (like clicking a link on the page)
+        - if the target="_blank" --> opens a new tab 
+        - Cypress uses jQuery method --> removeAttr (which is invoked by .invoke()) ==> deletes the attribute (which is passed as one of the 
+          of the invoke() method) --> using this technique will allow you to test web pages that would normally open in a new tab directly within Cypress
+        - EX: cy.get('a[target="_blank"]').invoke('removeAttr', 'target').click() 
+            - invoke() here removes the behavior of that link --> ensures that the link opens in the same tab when clicked 
+
+    - Window alerts [something that we covered w/ Ulan with DOM elements] ==> pop-up notifications created by a browser to inform/warn the user about 
+      a specific action/event 
+        - invoked in JS using the alert() function --> when there's an alert, the browser's main thread is frozen (prevents any other interaction) until user presses button 
+
+Implicit VS. Explicit Assertions: 
+    - Implicit --> are built into Cypress commands, so you don't need to use .then() and .expect()
+        - Cypress automatically waits and retries until th condition passes or fails 
+    - Explicit --> these are MANUAL assertions using .then() w/ expect() or assert()
+
+
+
+How the architecture deals with the promises: 
+* relearn implicit/explicit + .then() + .invoke()
+
+cy.get('#main_heading').then(($el) => {
+    const el = $el.text();
+    const num = $el.length();
+    const el = $el.attr();
+    cy.log($el)
+})
+
+.then() ==> more flexible 
+    - retrieves the property of the previous property
+    - retrieves it as a jQuery object 
+    - we want to manipulate the element by using JS methods 
+    - method that will allow us to retrieve the property from previous subject [attributes, etc.]
+    - callback function --> return jQuery locator 
+
+
+cy.get('#main_heading').invoke('text').then((text) => {
+    cy.log(text)
+})
+
+.invoke() ==> you know what you 
+    - you right away tell what you want 
+    - BUT you're stuck to getting ONE thing, instead of the earlier example where it's more flexible in retriecing 
