@@ -1,0 +1,82 @@
+RECAP (for myself): 
+    - Cypress ==> a JS, end-to-end(e2e) testing framework used to test web applications in the browser - just like a real user 
+    
+    - *= selector [contains] --> matches any element whose attribute CONTAINS specified value 
+        - EX: cy.get('input[placeholder*="email"]'); 
+    - ^= selector [startsWith] --> matches any element whose attribute STARTS WITH the specified value
+        - EX: cy.get('input[placeholder^="Enter"]');
+    - $= selector [endsWith] --> matches any element whose attribute ENDS WITH the specified value  
+        - EX: cy.get('input[placeholder$="email"]');
+    - > [direct child selector] --> selects only ONE direct child (one level down)
+        - EX: cy.get('div > label');
+    - ' ' (space) [descendant selector] --> selects all matching descendants (any level deep)
+        - EX: cy.get('div label');
+    - , (comma) [multiple selectors] --> combines selectors together
+        - EX: cy.get('input, textarea, select');
+    - + (plus) [adjacent sibling] ==> selects the element immediately following another 
+        - EX: cy.get('label + input');
+    - ~ [general sibling] --> selects all siblings after the element, not just the first 
+        - EX: cy.get('label ~ input');
+
+    - Cypress commands: 
+        1. cy.visit() --> opens up a webpage
+        2. cy.get() --> selects an element using a CSS selector 
+        3. cy.contains() --> selects an element that contains a specific text
+        4. cy.click() --> clicks an element 
+        5. cy.type() --> types text into an input field 
+        6. cy.check() --> checks a checkbox or radio button 
+        7. cy.select() --> selects an option in a <select> dropdown 
+        8. cy.should() --> makes an assertion 
+        9. cy.scrollIntoView() --> scrolls to an element
+        10. cy.find() --> find a CHILD element within a selected element 
+        11. cy.parent()/cy.parents() --> goes up to the parent element(s) in the DOM 
+        12. cy.title() --> used to get the current page's title 
+        13. cy.then() --> gives access to make changes/manipulate values yielded by the previous commands allowing for 
+             better control 
+        
+    - Assertion ==> a way of checking that something on the page is TRUE (like "this button is visible" or "this input is required")
+        - Types of Assertions: 
+            1. Default ==> they are built into Cypress commands --> automatically retries until the condition is true or times out (4 secs.)
+                - cy.get() & cy.click()
+            2. Implicit ==> Cypress WAITS and retries until the condition passes 
+                - cy.should() & cy.and()
+            3. Explicit ==> these are MANUAL checks; use this when Cypress doesn't know how to retry 
+                - cy.then() & cy.expect()
+
+    - When to Use .then() and .invoke()
+        - .then() ==> use this when you need to get a value out of Cypress chain or do something CUSTOM 
+        - .invoke() ==> use this to call a method on a jQuery element [like .text(), .val(), .attr()]
+
+
+- Handling Alerts (cont.)
+    - Three types of alerts: 
+        1. Warning --> simple information dialog w/ OK button 
+        2. Confirmation --> Either OK or Cancel button 
+        3. Prompt --> prompts user for input; contains text field for user to enter info --> return a string (or null if user cancels)
+    
+    - NOW how to handle alerts: 
+        - w/ Cypress --> pretty easy b/c it automatically accepts alerts BUT still needs to assert text content
+        - cy.on('eventName', (callBackFunc => {
+            // code block 
+        })) ==> to interact w/ alerts 
+
+            - cy.on('uncaught:exception', () => {
+                false; 
+            })
+           
+            - event listener ==> expecting an event to happen 
+            - allows you to attach a callback function to specific Cypress events + then will executed when those events occur during the test 
+            - can't really interact w/ them head on --> just use cy.on() to listen/handle those alerts
+
+RECAP: 
+    - What is iFrame?   
+        - It's a whole HTML content that is embedded inside another HTML DOM content. 
+        - It allows developers to add another resource in the website w/o needing to navigate another website. 
+            - EX: Adds, Navigation Apps, YouTube videos, etc. 
+   
+    - What is the problem on accessing content in the iFrame? [** How do you handle iFrames in Cypress? **]
+        - To acces the content in the iframe --> first we must target the iFrame itself 
+
+- Alerts are prompted by THE BROWSER, NOT the DOM 
+- You can't locate it in HTML/DOM --> it uses JS (only way the browser can communicate)
+- 
