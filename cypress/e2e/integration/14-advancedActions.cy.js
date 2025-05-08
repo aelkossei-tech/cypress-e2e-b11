@@ -3,15 +3,15 @@
 describe("Handling Alerts", () => {
     beforeEach(() => {
       cy.visit("https://www.techglobal-training.com/frontend");
-      cy.clickCard('Alerts')
+      cy.clickCard('Actions')
     });
   
-    it.only('Mouse Actions using Cypress events', () => {
+    it('Mouse Actions using Cypress events', () => {
        // cy.get('#dropdown-testing').trigger('mouseover'); // it will cancel out quickly 
        cy.get('#dropdown-testing').realHover(); 
     }); 
 
-    it.only('Keyboard Actions', () => { 
+    it('Keyboard Actions', () => { 
         cy.visit("https://www.techglobal-training.com/frontend");
         cy.clickCard('HTML Elements')
 
@@ -24,5 +24,67 @@ describe("Handling Alerts", () => {
          .realPress('KeyR')
          .realPress('Backspace')
          .realPress(['ShiftLeft', 'KeyA'])
+    }); 
+
+  /**
+   * Go to https://techglobal-training.com/frontend/
+   * Click on the "Actions" card
+   * Verify that the user is redirected to the Actions page
+   * Verify that the first three web elements are present and labeled as "Click on me", "Right-Click on me", and "Double-Click on me"
+   * Perform a click action on the first web element labeled "Click on me"
+   * Verify that a message appears next to the element stating, "You clicked on a button!"
+   * Perform a right-click action on the second web element labeled "Right-Click on me"
+   * Verify that the message appears next to the element stating, "You right-clicked on a button!"
+   * Perform a double-click action on the third web element labeled "Double-Click on me"
+   * Verify that the message appears next to the element stating, "You double-clicked on a button!"
+   */
+
+    it('Right Click and Double Click', () => {
+      //cy.get().rightclick();
+      //cy.get().dblclick();
+      
+      cy.url().then((url) => {
+        const actions = url.slice(url.lastIndexOf('/') + 1); 
+        cy.wrap(actions).should('eq', 'actions'); 
+      }); 
+      
+      const buttons = ['Click','Right-Click', 'Double-Click']
+      buttons.forEach((ele) => {
+        cy.get(`button.Button_c_button__TmkRS.null`).should('be.visible', `${ele} on me`); 
+      }); 
+    
+      cy.get('button#click').click();  
+      cy.get('button#right-click').rightclick();
+      cy.get('button#double-click').dblclick();
+
+      buttons.forEach((ele) => {
+        cy.get(`button.Button_c_button__TmkRS.null`).should('be.visible', `You ${ele}ed on a button!`); 
+      }); 
+
+/*
+it('Right Click and Double Click', () => {
+    // cy.url().should('contain', 'actions')
+
+    cy.url().then((url) => {
+      const actions = url.slice(url.lastIndexOf('/') +1)
+      cy.wrap(actions).should('eq', 'actions')
     })
+
+    cy.get('[id$="click"]').as('buttons')
+
+    cy.get('@buttons').first().should('have.text', 'Click on me').click()
+    .next().should('have.text', 'You clicked on a button!')
+
+    cy.get('@buttons').eq(1).should('have.text', 'Right-Click on me').rightclick()
+    .next().should('have.text', 'You right-clicked on a button!')
+
+    cy.get('@buttons').last().should('have.text', 'Double-Click on me').dblclick()
+    .next().should('have.text', 'You double-clicked on a button!')
+  })
+*/ 
+    }); 
+    
+    it.only('Drag and Drop', () => {
+      cy.get('#drag_element').drag('#drop_element') // drag is where you want to drop the elemt 
+    }); 
 }); 

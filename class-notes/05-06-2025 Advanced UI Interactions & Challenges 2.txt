@@ -79,4 +79,3 @@ RECAP:
 
 - Alerts are prompted by THE BROWSER, NOT the DOM 
 - You can't locate it in HTML/DOM --> it uses JS (only way the browser can communicate)
-- 
