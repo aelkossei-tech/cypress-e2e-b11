@@ -1,0 +1,15 @@
+
+RECAP: 
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"   --> comes in a default 
+
+    // "test": "npx cypress run" --> you can add specific commands to trigger 
+    // "test": "npx cypress open" --> 
+    // "test:config": "npx cypress r
+
+  }, 
+
+  ** Can only be triggered with "npx" keyword 
+
+package.json ==> has the dependencies that you will use throughout Cypress actions 

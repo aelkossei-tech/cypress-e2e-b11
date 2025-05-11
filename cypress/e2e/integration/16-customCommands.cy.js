@@ -54,6 +54,10 @@ function searchAndEditOrShowUserByName(buttonType ,userName){
 
         cy.get('#main_heading').logText(); 
         cy.get('#main_heading').haveText('HTML Elements'); 
+
+        cy.log(Cypress.env('SITE_URL'));
+        cy.log(Cypress.env('UI_USERNAME'));
+        cy.log(Cypress.env('UI_PASSWORD'));
     }); 
 }); 
 
