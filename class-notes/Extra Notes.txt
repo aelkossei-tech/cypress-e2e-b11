@@ -349,3 +349,40 @@ ALERTS AND DIALOGS:
 				--headed		=> Cypress CLI
 
 				npm t -- --headed 	CORRECT
+
+
+
+
+TEST CASES:
+	- Test Case Template ==> document that comes under one of the test artifacts 
+		- Test Artifacts --> any documents/data/files created during the software testing process
+							- includes test cases/test scripts/test data/logs/test results 
+		- test cases are the set of positive/negative executable steps of a test scenario which has a set of: 
+			pre-conditions/test data/expected results/ post-conditions/actual results 
+	
+	- Test Scenario VS. Test Cases VS. Test Scripts
+		
+		- Test Scenario ==> a high-level description of what to test + outlining overall functionality/feature being 
+		  evaluated 
+		  	- "What to be tested" 
+		  	- it outlines WHAT to test and helps ensure + focuses on "WHAT" needs to be tested 
+			- EX: Testing the functionality of a login page of Gmail app --> Verify the login functionality
+		 
+		  - Test Case ==> detailed steps that testers follow to verify the functionality of a user story 
+		  	- dive into the "HOW" of the testing process + "How to be tested" 
+			- the set of positive & negative executable steps of a test scenario which has 
+			- they describe a specific idea that is to be tested, w/o detailing the EXACT steps to be taken or data to be used 
+
+			- EX: Test Case 1: Enter Valid User Name and Valid Password 
+			
+			- Types of Test Cases: 
+				1. Positive --> they're tests designed to verify that the application behaves AS EXPECTED when you have valid input 
+				2. Negative --> these tests focs on validating the application's response to invalid input/unexpected user behavior; 
+					it ensures that the software handles errors 
+				3. Boundary --> it assesses the PERFORMANCE of the application at the edges of input ranges; basically tests the application at its limits to see what it can handle 
+				4. Functional --> they verify that specific functions work 
+		
+		- Test Scripts ==> a line-by-line description of all actions/data needed to perform a test
+			- typically has steps that try to fully describe how to use the program 
+			- also includes specific resutls that are expected for each step 
+			- 
